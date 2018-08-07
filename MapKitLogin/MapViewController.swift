@@ -19,6 +19,17 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
+    var polyline:MKPolyline!{
+        
+        didSet{
+           
+             let padding = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
+            self.mapView.setVisibleMapRect(polyline.boundingMapRect, edgePadding: padding, animated: true)
+            
+        }
+        
+    }
+    
     var points:[Position] = [
         
                              Position(lattitude: 36.702910, longitude: -119.236212),
@@ -39,6 +50,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         for pos in points{
             
             let anotation = MKPointAnnotation()
@@ -54,7 +66,46 @@ class MapViewController: UIViewController {
         
         self.mapView.setRegion(region, animated: true)
         
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        var cooridinate:[CLLocationCoordinate2D] = []
+        
+        for verticis in points{
+            
+            let pos = CLLocationCoordinate2D(latitude: verticis.lattitude, longitude: verticis.longitude)
+            cooridinate.append(pos)
+            
+            
+        }
+        
+         let polyline = MKPolyline(coordinates: &cooridinate, count: cooridinate.count)
+    
+         self.mapView.add(polyline)
+        
+    }
+
+}
+
+
+extension MapViewController:MKMapViewDelegate{
+    
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        if overlay is MKPolyline {
+            
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.clear
+            renderer.lineWidth = 0.5
+            self.polyline = renderer.polyline
+            return renderer
+            
+        }
+        
+      return MKOverlayRenderer()
+        
     }
 
 }
