@@ -71,23 +71,17 @@ class MapViewController: UIViewController {
         
         let rectbtn = CGRect(x: 0, y: 0, width: 120, height: 120)
         let button = UIButton(frame: rectbtn)
-      
         button.backgroundColor = UIColor.darkGray
-        
         let rect = CGRect(x: 0, y: 0, width: 120, height: 120)
         let smallview = UIView(frame: rect)
         smallview.backgroundColor = UIColor.blue
-
-        
         let stackView = UIStackView(frame: rect)
-        
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
         stackView.spacing = 5
         stackView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleWidth, .flexibleHeight]
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
         smallview.addSubview(button)
         
         return stackView
@@ -121,18 +115,13 @@ extension MapViewController:MKMapViewDelegate{
         
         let reuseId = "test"
         
-        var anView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? CustomAnnotationView
+        var anView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MyAnnotationView
         
         if anView == nil {
             
            
-            anView = CustomAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            
-           // anView!.image = UIImage(named:"cab")
-            //anView!.canShowCallout = true
-            //anView!.detailCalloutAccessoryView = self.myview()
-            
-            anView!.number = arc4random_uniform(10)
+            anView = MyAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        
             
         }
         else {
@@ -164,38 +153,45 @@ extension MapViewController:MKMapViewDelegate{
 }
 
 
+class MyAnnotationView:MKAnnotationView{
+    
+    private let annotationFrame = CGRect(x: 0, y: 0, width: 80, height: 80)
+    private var View:MyView
+     private var label: UILabel
 
-class CustomAnnotationView: MKAnnotationView {
-    
-    private let annotationFrame = CGRect(x: 0, y: 0, width: 100, height: 100)
-    private let label: UILabel
-    
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+     
+        self.View = UINib(nibName: "MyView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! MyView
+        self.label = UILabel(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         
-       // self.label = UILabel(frame: annotationFrame.offsetBy(dx: 0, dy: -6))
-        self.label = UILabel(frame: annotationFrame)
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        
         self.frame = annotationFrame
+        self.View.frame = annotationFrame.offsetBy(dx: 0, dy: -6)
+        
+        self.View.lbl_title.text = "title"
+        self.View.lbl_subtitle.text = "subtitle"
+      
+    
         self.label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         self.label.textColor = .white
         self.label.textAlignment = .center
         self.backgroundColor = .clear
-        self.addSubview(label)
+        self.View.addSubview(self.label)
+        self.addSubview(View)
+       
         
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) not implemented!")
+        fatalError("init(coder:) has not been implemented")
     }
     
-    public var number: UInt32 = 0 {
-        didSet {
-            self.label.text = String(number)
-        }
-    }
+   
     
     override func draw(_ rect: CGRect) {
-        
+       
+
         guard let context = UIGraphicsGetCurrentContext() else { return }
 
         context.beginPath()
@@ -204,8 +200,11 @@ class CustomAnnotationView: MKAnnotationView {
         context.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
         context.closePath()
 
-        UIColor.blue.set()
+        salmon.set()
         context.fillPath()
         
- }
+    }
+    
 }
+
+
