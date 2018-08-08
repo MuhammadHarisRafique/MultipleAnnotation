@@ -168,11 +168,12 @@ class MyAnnotationView:MKAnnotationView{
         
         self.frame = annotationFrame
         self.View.frame = annotationFrame.offsetBy(dx: 0, dy: -6)
+        self.View.layer.cornerRadius = 10
+        self.View.layer.masksToBounds = true
         
         self.View.lbl_title.text = "title"
         self.View.lbl_subtitle.text = "subtitle"
       
-    
         self.label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         self.label.textColor = .white
         self.label.textAlignment = .center
