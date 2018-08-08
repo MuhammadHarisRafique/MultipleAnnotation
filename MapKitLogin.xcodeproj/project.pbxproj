@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D8C2F8D2119E0CE00BE3E95 /* cab.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D8C2F8C2119E0CE00BE3E95 /* cab.png */; };
 		4DF646BF21183E8800C2E27D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF646BE21183E8800C2E27D /* AppDelegate.swift */; };
 		4DF646C121183E8800C2E27D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF646C021183E8800C2E27D /* ViewController.swift */; };
 		4DF646C421183E8800C2E27D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DF646C221183E8800C2E27D /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D8C2F8C2119E0CE00BE3E95 /* cab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cab.png; sourceTree = "<group>"; };
 		4DF646BB21183E8800C2E27D /* MapKitLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapKitLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DF646BE21183E8800C2E27D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DF646C021183E8800C2E27D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				4DF646BE21183E8800C2E27D /* AppDelegate.swift */,
 				4DF646C021183E8800C2E27D /* ViewController.swift */,
 				4DF646C221183E8800C2E27D /* Main.storyboard */,
+				4D8C2F8C2119E0CE00BE3E95 /* cab.png */,
 				4DF646C521183E8900C2E27D /* Assets.xcassets */,
 				4DF646C721183E8900C2E27D /* LaunchScreen.storyboard */,
 				4DF646CA21183E8900C2E27D /* Info.plist */,
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D8C2F8D2119E0CE00BE3E95 /* cab.png in Resources */,
 				4DF646C921183E8900C2E27D /* LaunchScreen.storyboard in Resources */,
 				4DF646C621183E8900C2E27D /* Assets.xcassets in Resources */,
 				4DF646C421183E8800C2E27D /* Main.storyboard in Resources */,

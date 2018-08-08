@@ -63,10 +63,37 @@ class MapViewController: UIViewController {
        self.mapView.addAnnotations(self.annotionArray)
         
        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: points[0].lattitude, longitude: points[0].longitude), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
-        
         self.mapView.setRegion(region, animated: true)
         
     }
+    
+    func myview() -> UIView{
+        
+        let rectbtn = CGRect(x: 0, y: 0, width: 120, height: 120)
+        let button = UIButton(frame: rectbtn)
+      
+        button.backgroundColor = UIColor.darkGray
+        
+        let rect = CGRect(x: 0, y: 0, width: 120, height: 120)
+        let smallview = UIView(frame: rect)
+        smallview.backgroundColor = UIColor.blue
+
+        
+        let stackView = UIStackView(frame: rect)
+        
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleWidth, .flexibleHeight]
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        smallview.addSubview(button)
+        
+        return stackView
+        
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -77,12 +104,10 @@ class MapViewController: UIViewController {
             let pos = CLLocationCoordinate2D(latitude: verticis.lattitude, longitude: verticis.longitude)
             cooridinate.append(pos)
             
-            
         }
         
-         let polyline = MKPolyline(coordinates: &cooridinate, count: cooridinate.count)
-    
-         self.mapView.add(polyline)
+        let polyline = MKPolyline(coordinates: &cooridinate, count: cooridinate.count)
+        self.mapView.add(polyline)
         
     }
 
@@ -91,6 +116,34 @@ class MapViewController: UIViewController {
 
 extension MapViewController:MKMapViewDelegate{
     
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "test"
+        
+        var anView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? CustomAnnotationView
+        
+        if anView == nil {
+            
+           
+            anView = CustomAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            
+           // anView!.image = UIImage(named:"cab")
+            //anView!.canShowCallout = true
+            //anView!.detailCalloutAccessoryView = self.myview()
+            
+            anView!.number = arc4random_uniform(10)
+            
+        }
+        else {
+           
+            anView!.annotation = annotation
+            
+        }
+        
+        return anView
+
+    }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
@@ -108,4 +161,51 @@ extension MapViewController:MKMapViewDelegate{
         
     }
 
+}
+
+
+
+class CustomAnnotationView: MKAnnotationView {
+    
+    private let annotationFrame = CGRect(x: 0, y: 0, width: 100, height: 100)
+    private let label: UILabel
+    
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        
+       // self.label = UILabel(frame: annotationFrame.offsetBy(dx: 0, dy: -6))
+        self.label = UILabel(frame: annotationFrame)
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        self.frame = annotationFrame
+        self.label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        self.label.textColor = .white
+        self.label.textAlignment = .center
+        self.backgroundColor = .clear
+        self.addSubview(label)
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) not implemented!")
+    }
+    
+    public var number: UInt32 = 0 {
+        didSet {
+            self.label.text = String(number)
+        }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+
+        context.beginPath()
+        context.move(to: CGPoint(x: rect.midX, y: rect.maxY))
+        context.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        context.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+        context.closePath()
+
+        UIColor.blue.set()
+        context.fillPath()
+        
+ }
 }
