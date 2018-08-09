@@ -155,14 +155,14 @@ extension MapViewController:MKMapViewDelegate{
 
 class MyAnnotationView:MKAnnotationView{
     
-    private let annotationFrame = CGRect(x: 0, y: 0, width: 80, height: 80)
+    private let annotationFrame = CGRect(x: 0, y: 0, width: 50, height: 50)
     private var View:MyView
      private var label: UILabel
 
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
      
         self.View = UINib(nibName: "MyView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! MyView
-        self.label = UILabel(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        self.label = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         
          super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
@@ -174,10 +174,18 @@ class MyAnnotationView:MKAnnotationView{
         self.View.lbl_title.text = "title"
         self.View.lbl_subtitle.text = "subtitle"
       
-        self.label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+       // self.label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         self.label.textColor = .white
         self.label.textAlignment = .center
         self.backgroundColor = .clear
+        self.View.lbl_title.numberOfLines = 1
+         self.View.lbl_title.adjustsFontSizeToFitWidth = true
+        self.View.lbl_title.minimumScaleFactor = 0.1
+        
+        self.View.lbl_subtitle.numberOfLines = 1
+        self.View.lbl_subtitle.adjustsFontSizeToFitWidth = true
+        self.View.lbl_subtitle.minimumScaleFactor = 0.1
+        
         self.View.addSubview(self.label)
         self.addSubview(View)
        
